@@ -6,4 +6,3 @@ from datetime import datetime
 def home():
 	return render_template('layout.html')
 
-@app.route('')
