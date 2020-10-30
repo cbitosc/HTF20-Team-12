@@ -1,0 +1,45 @@
+{% extends "twelveRowLayout.html" %}
+
+{% block mainSection %}
+	
+	<div class="container p-4 rounded bg-white">
+
+		<div class="profileCard card">
+			
+			<div class="row">
+				<div class="media col-12">
+					<img class="profile rounded-circle" src="{{url_for('static',filename='profile/temp_pic.jpg')}}" alt="profile">
+					<div class="media-body mt-2 ml-4">
+						
+							<p>Username</p>
+							<p>Role</p>
+							<p>Email</p>
+					
+						
+					</div>
+				</div>
+			</div>
+
+			<hr>
+
+			<div class="row mt-2 ml-2">
+
+				<div class="column">
+					
+					<a href="">My Questions</a>
+				
+				</div>
+
+				<div class="column">
+					<a href="">Tags I follow</a>
+					
+				</div>
+				
+			</div>
+
+		</div>
+
+
+	</div>
+
+{% endblock mainSection %}

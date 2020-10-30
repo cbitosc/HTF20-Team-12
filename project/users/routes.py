@@ -9,3 +9,7 @@ users=Blueprint('users',__name__)
 @users.route('/')
 def temp():
 	return render_template('layout.html')
+
+@users.route('/profile')
+def profile():
+	return render_template('profile.html')

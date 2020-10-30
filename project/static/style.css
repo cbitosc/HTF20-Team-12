@@ -24,3 +24,23 @@ h1{
 h1:hover{
 	color: #000;
 }
+
+
+/*Profile Page*/
+.profile{
+	width: 8em;
+	height: 8em;
+}
+
+.profileCard{
+	border: none;
+}
+
+.column{
+	width: 50%;
+}
+
+.column a:hover{
+	color: #000;
+	text-decoration: none;
+}
