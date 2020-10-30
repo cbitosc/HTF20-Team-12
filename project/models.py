@@ -17,6 +17,15 @@ class User(db.Model):
 	URole=db.Column(db.Integer, db.ForeignKey('role.RoleId', ondelete="set null"))
 	UBranch=db.Column(db.Integer, db.ForeignKey('branch.BranchId', ondelete="set null"))
 
+	def user_tags(self):
+		tags_dict=db.session.query(Tags).join(TagsFollowing, Tags.Tagid==TagsFollowing.TFtagId).filter(self.Uid==TagsFollowing.TFuserId).all()
+		return tags_dict
+
+	def questions_asked(self):
+		ques_dict=db.session.query(QuestionThreads).filter(QuestionThreads.Qauthor==self.Uid).all()
+		return ques_dict
+
+	 
 
 
 class Role(db.Model):
@@ -31,10 +40,12 @@ class Branch(db.Model):
 
 class QuestionThreads(db.Model):
 	Qid=db.Column(db.Integer,primary_key=True)
-	Qauthor=db.Column(db.Integer,db.ForeignKey('user.Uid',ondelete="cascade"),nullable=True)
+	QAnonymous=db.Column(db.Integer, nullable=False, default=0)
+	Qauthor=db.Column(db.Integer,db.ForeignKey('user.Uid',ondelete="cascade"),nullable=False)
 	Qtitle=db.Column(db.String(20),nullable=False)
 	QDescription=db.Column(db.String(1000),nullable=False)
 	Qdate=db.Column(db.DateTime,nullable=False,default=datetime.utcnow)
+
 
 class QFollowing(db.Model):
 	Question=db.Column(db.Integer,db.ForeignKey('question_threads.Qid',ondelete="cascade"),primary_key=True)
@@ -44,6 +55,7 @@ class QFollowing(db.Model):
 class Answers(db.Model):
 	Aid=db.Column(db.Integer,primary_key=True)
 	AQid=db.Column(db.Integer,db.ForeignKey('question_threads.Qid',ondelete="cascade"),nullable=False)
+	AAnonymous=db.Column(db.Integer, nullable=False, default=0)
 	Aauthor=db.Column(db.Integer, db.ForeignKey("user.Uid", ondelete="cascade"), nullable=True)
 	Atitle=db.Column(db.String(100),nullable=False)
 	Aans=db.Column(db.String(2000),nullable=False)
