@@ -1,0 +1,25 @@
+header,nav{
+	background: #5CDB95;
+}
+
+body{
+	background: #5CDB95;
+}
+
+
+a{
+	color:#000;
+}
+
+a:hover{
+	color: white;
+	font-weight: bold; 
+}
+
+h1{
+	text-shadow: 1.5px 1px 3px #000;
+}
+
+h1:hover{
+	color: #000;
+}
