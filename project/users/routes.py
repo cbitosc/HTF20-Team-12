@@ -1,20 +1,44 @@
 from datetime import datetime, date
 from flask import  render_template, url_for, Blueprint, request, session, redirect, escape, flash, abort
 from sqlalchemy import and_
-from project.users.forms import RegisterForm
+from project.users.forms import RegisterForm, LoginForm
 from project.models import db,User
 
 users=Blueprint('users',__name__)
 
 
-@users.route('/')
-def temp():
-	return render_template('layout.html')
+
 
 @users.route('/profile')
 def profile():
 	return render_template('profile.html')
 
+
+@users.route("/login/",methods=['POST','GET'])
+def login():
+	if request.method=="POST":
+		username=escape(request.form['Username'])
+		password=escape(request.form['Password'])
+		row=db.session.query(User).filter(and_(User.Uusername==username, User.Upassword==password)).first()
+		if row!=None:
+			session['username']=str(username)
+			session['user_id']=int(row.Uid)
+			return redirect(url_for('users.mainpage'))
+		else:
+			flash("Username or Password incorrect...")
+			return redirect(url_for('users.login'))
+	else:
+		form=LoginForm()
+		return render_template("Login.html",form=form)
+
+@users.route('/logout/')
+def logout():
+	if 'username' in session.keys():
+		session.pop('username')
+		session.pop('user_id')
+		return redirect(url_for('users.mainpage'))
+	else:
+		abort(401)
 
 @users.route('/register/',methods=['POST','GET'])
 def register():
@@ -37,7 +61,25 @@ def register():
 		new_user=User(UfirstName=FirstName, UlastName=LastName, Uusername=UserName,Uemail=UserEmail, Udob=UserDob, UDescription=UserDescritpion, UstudyYear=UserYear, URole=UserAccountType,Upassword=Password, UBranch=UserBranch)
 		db.session.add(new_user)
 		db.session.commit()
-		return redirect(url_for('users.temp'))
+		return redirect(url_for('users.login'))
 	else:
 		form=RegisterForm()
 		return render_template("register.html",form=form)
+
+
+@users.route("/")
+def mainpage():
+	if ('username' in session.keys()) and ('user_id' in session.keys()):
+		return redirect(url_for('users.homepage'))
+
+	return render_template("GreetPage.html")
+
+
+@users.route('/home/')
+def homepage():
+	if ('username' in session.keys()) and ('user_id' in session.keys()):
+		present_user=db.session.query(User).get(session['user_id'])
+		Tags=present_user.user_tags()
+		return render_template("homepage.html",Tags=Tags)
+		
+	return render_template("GreetPage.html")
