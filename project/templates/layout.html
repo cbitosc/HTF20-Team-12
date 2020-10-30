@@ -10,17 +10,17 @@
 
     <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style.css')}}">
 
-    <title>Hello, world!</title>
+    <title>CBIT Stack Overflow</title>
   </head>
   <body>
-    <header class="shadow mb-2 sticky-top bg-light">
+    <header class="mb-2 sticky-top bg-light">
         
         <nav class="navbar navbar-light sticky-top navbar-expand-sm">
           <div class="container-fluid">
 
             
             <div class="navbar-header" >
-                <div class="navbar-brand"><a href="#"><h1 class="text-center" >Add_Title_Here</h1></a></div>
+                <div class="navbar-brand"><a href="#"><h1 class="text-center" >CBIT Stack Overflow</h1></a></div>
             </div>
 
 
@@ -28,9 +28,9 @@
             {% if 1==1 %}
             <div class="collapse navbar-collapse" id="navbarToggler1" >
               <ul class="nav navbar-nav navbar-right ml-auto" >
-                <li ><a href="#" id="HomePage" class=" mx-1">Link1</a></li>
-                <li ><a href="#" id="FeedPage" class=" mx-1">Link2</a></li>
-                <li><a href="#" id="DiscussionPage" class=" mx-1">Link3</a></li>
+                <li ><a href="#" id="HomePage" class=" mx-1">Feed</a></li>
+                <li ><a href="#" id="FeedPage" class=" mx-1">Explore</a></li>
+                <!-- <li><a href="#" id="DiscussionPage" class=" mx-1">Link3</a></li> -->
                <!--  <li><a href="#" id="SearchPage" class="nav-link mx-1"><i class="fa fa-search"></i>Search</a></li>
               </ul> -->
             </div>
@@ -38,14 +38,14 @@
             <!-- Profile Pic -->
             <div class="dropdown nav-item ml-auto"  >
                   <a href="#" class="nav-link dropdown-toggle " data-toggle="dropdown">
-                     DropD
+                     <img src="{{url_for('static',filename='profile/temp_pic.jpg')}}" alt="profile" style="width: 2em;height: 2em;border-radius: 40%">
                   </a>
                   <div class="dropdown-menu dropdown-menu-right  " style="width: 50%;">
-                          <p class="dropdown-header text-center" >Hello..</p>
+                          <p class="dropdown-header text-center" >Username</p>
                           
-                          <a class="dropdown-item text-center" href="#">DD1</a>
-                          <a class="dropdown-item text-center" href="#">DD2</a>
-                          <a class="dropdown-item text-center" href="#">DD3</a>
+                          <a class="dropdown-item text-center" href="#">Profile</a>
+                          <a class="dropdown-item text-center" href="#">Account</a>
+                          <a class="dropdown-item text-center" href="#">Logout</a>
                   </div>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler1" aria-controls="navbarToggler1" aria-expanded="false" aria-label="Toggle navigation">
