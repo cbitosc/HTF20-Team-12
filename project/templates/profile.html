@@ -11,15 +11,21 @@
 					<div class="media-body row mt-3 ml-4">
 						
 						<div class="column">
-							<h6><strong>Yasaswini</strong></h6>
-							<p>Student</p>
-							<p>Year - 3</p>
+							<h6><strong>{{current_user.Uusername}}</strong></h6>
+
+							{% if current_user.URole==2%}
+								<p>Student</p>
+								<p>Year -{{current_user.UstudyYear}}</p>
+							{% else %}
+								<p>Faculty</p>
+							{% endif %}
 							
 						</div>
 						<div class="column">
-							<p>yasaswini@gmail.com</p>
+							<br>
+							<p>{{current_user.Uemail}}</p>
 							
-							<p>CSE</p>
+							<p>{{branches[current_user.UBranch]}}</p>
 							
 							
 						</div>

@@ -1,0 +1,116 @@
+{% extends "twelveRowLayout.html" %}
+{% block mainSection %}
+
+<div class="container rounded-lg profile-container mt-2 mb-2" >
+	<h3 style="color: #000;margin-left: 1em;" >Account Details</h3>
+	
+	
+   	<div class="card bg-white col-12 mt-2 ml-2 p-2" style="float: left;margin: 1em;">	
+   
+   			<form class="ml-3 disabled">
+
+			  <div class="form-group row">
+			    <label class="col-sm-5 col-form-label"><strong>Username</strong></label>
+			    <div class="col-sm-5">
+			      <input type="text" readonly class="form-control-plaintext" value="{{current_user.Uusername}}">
+			    </div>
+			  </div>
+
+			  <div class="form-group row">
+			  	<label class="col-sm-5 col-form-label"><strong>First Name</strong></label>
+			  		<div class="col-sm-5">
+			  			<input type="text" readonly class="form-control-plaintext" value="{{current_user.UfirstName}}">
+			  		</div>
+			  </div>
+
+			  <div class="form-group row">
+			  	<label class="col-sm-5 col-form-label"><strong>Last Name</strong></label>
+			  		<div class="col-sm-5">
+			  			<input type="text" readonly class="form-control-plaintext" value="{{current_user.UlastName}}">
+			  		</div>
+			  </div>
+
+			  <div class="form-group row">
+			    <label for="staticEmail" class="col-sm-5 col-form-label"><strong>Email</strong></label>
+			    <div class="col-sm-5">
+			      <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{current_user.Uemail}}">
+			    </div>
+			  </div>
+
+			  <div class="form-group row">
+			    <label class="col-sm-5 col-form-label"><strong>Date of birth</strong></label>
+			    <div class="col-sm-5">
+			      <input type="text" readonly class="form-control-plaintext" value="{{current_user.Udob}}">
+			    </div>
+			  </div>
+
+			  <div class="form-group row">
+			  	<label class="col-sm-5 col-form-label"><strong>Branch</strong></label>
+			  		<div class="col-sm-5">
+			  			<input type="text" readonly class="form-control-plaintext" value="{{branches[current_user.UBranch]}}">
+			  		</div>
+			  </div>
+
+			  {% if current_user.URole ==2 %}
+			  	<div class="form-group row">
+			  		<label class="col-sm-5 col-form-label"><strong>Year</strong></label>
+			  			<div class="col-sm-5">
+			  				<input type="text" readonly class="form-control-plaintext" value="{{current_user.UstudyYear}}">
+			  			</div>
+			  	</div>
+			  	{% else %}
+
+			  {% endif %}
+
+			  <div class="form-group row">
+			  	<label class="col-sm-5 col-form-label"><strong>Description</strong></label>
+			  		<div class="col-sm-5">
+			  			<input type="text" readonly class="form-control-plaintext" value="{{current_user.UDescription}}">
+			  		</div>
+			  </div>
+
+			  <hr/>
+			  <div class="form-group row ml-2">
+			  	<a href="{{url_for('users.profile')}}" class="btn btn-info mb-2 mr-3">Go to Profile</a>
+			    <a href="" class="btn btn-info mb-2 mr-3">Edit Profile</a>
+			    <a href="" class="btn btn-dark ml-1 mb-2 mr-3">Change Password</a>
+
+			    <button type="button" class="btn btn-danger mb-2 ml-1 mr-3" data-toggle="modal" data-target="#exampleModal">
+ 			 	Delete Account</button>
+
+
+
+			  </div>
+			  
+			</form>          
+
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog modal-lg">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLabel">Delete Account</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			        Are you sure you want to delete your account ?
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-danger">Delete Account</button>
+
+			      </div>
+			    </div>
+			  </div>
+			</div>
+		
+            	
+   </div>
+   			
+ 
+
+
+</div>
+{% endblock mainSection %}

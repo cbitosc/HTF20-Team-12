@@ -7,11 +7,15 @@ from project.models import db,User
 users=Blueprint('users',__name__)
 
 
-
+branches={1:"CSE",2:"ECE",3:"IT",4:"MECH",5:"CIVIL",6:"CHEM",7:"BIO-TECH",8:"PROD",9:"MCA",10:"MBA"}
 
 @users.route('/profile')
 def profile():
-	return render_template('profile.html')
+	if('username' in  session.keys()) and ('user_id' in session.keys()):
+		present_user=db.session.query(User).get(session['user_id'])
+		return render_template('profile.html',current_user=present_user,branches=branches) 	
+
+	return redirect(url_for('users.login'))
 
 @users.route('/questionAsked')
 def questionAsked():
@@ -88,3 +92,11 @@ def homepage():
 		return render_template("homepage.html",Tags=Tags)
 		
 	return render_template("GreetPage.html")
+
+@users.route('/AccountDetails')
+def AccountDetails():
+	if('username' in  session.keys()) and ('user_id' in session.keys()):
+		present_user=db.session.query(User).get(session['user_id'])
+		return render_template('userAccount.html',current_user=present_user,branches=branches) 	
+
+	return redirect(url_for('users.login'))
