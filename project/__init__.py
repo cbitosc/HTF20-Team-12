@@ -16,4 +16,8 @@ if 'sqlite' in app.config['SQLALCHEMY_DATABASE_URI']:
         
         event.listen(db.engine, 'connect', _fk_pragma_on_connect)
 
-from project import routes
+from project.users.routes import users
+from project.discussions.routes import discussions
+
+app.register_blueprint(users)
+app.register_blueprint(discussions)
