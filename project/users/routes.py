@@ -15,6 +15,11 @@ def temp():
 def profile():
 	return render_template('profile.html')
 
+@users.route('/questionAsked')
+def questionAsked():
+	return render_template('askedquestions.html')
+	
+
 
 @users.route('/register/',methods=['POST','GET'])
 def register():
