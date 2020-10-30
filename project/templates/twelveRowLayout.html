@@ -20,7 +20,7 @@
 
             
             <div class="navbar-header" >
-                <div class="navbar-brand"><a href="#"><h1 class="text-center" >CBIT Stack-Overflow</h1></a></div>
+                <div class="navbar-brand"><a href="{{url_for('users.homepage')}}"><h1 class="text-center" >CBIT Stack-Overflow</h1></a></div>
             </div>
 
 
@@ -41,10 +41,9 @@
                      <img src="{{url_for('static',filename='profile/temp_pic.jpg')}}" alt="profile" style="width: 2em;height: 2em;border-radius: 40%">
                   </a>
                   <div class="dropdown-menu dropdown-menu-right  " style="width: 50%;">
-                          <p class="dropdown-header text-center" >Username</p>
-                          
-                          <a class="dropdown-item text-center" href="#">Profile</a>
-                          <a class="dropdown-item text-center" href="#">Account</a>
+                          <p class="dropdown-header text-center" ><strong> {{session['username']}}</strong></p>
+                          <a class="dropdown-item text-center" href="{{url_for('users.profile')}}">Profile</a>
+                          <a class="dropdown-item text-center" href="{{url_for('users.AccountDetails')}}">Account</a>
                           <a class="dropdown-item text-center" href="{{url_for('users.logout')}}">Logout</a>
                   </div>
             </div>
