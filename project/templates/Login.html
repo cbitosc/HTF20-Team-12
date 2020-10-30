@@ -1,0 +1,45 @@
+{% extends "FormLayout.html" %}
+{% block Form %}
+<div class="container" >
+      <div class="row" >
+        <div class=" col-6 col-sm-4 d-flex justify-content-center offset-sm-4  offset-3 bg-white rounded-lg mt-5 p-4">
+          <form action="{{url_for('users.login')}}" class="form" method="post">
+            <legend class="text-center text-success" style="font-size: 180%; font-weight: 'bold';"  >User Login:</legend>
+            {{ form.csrf_token }}
+           
+            <div class="form-group mt-3">
+            
+            {{form.Username(class="form-control",placeholder="Username")}}
+            </div>
+
+            <div class="form-group mt-3" >
+           
+            {{form.Password(class="form-control",placeholder="Password")}}
+            </div>
+            <div class="form-group mt-3 text-danger" >
+              {% with messages=get_flashed_messages() %}
+                {% if messages %}
+                  {% for message in messages %}
+                    <small>{{message}}</small>
+                  {% endfor %}
+                {% endif %}
+              {% endwith %}
+              
+            </div>
+            <div class="form-group mt-3 text-info">
+              <small><a href="">Forgot password?</a></small>
+            </div>
+            <div>
+                  <small>Don't have an account?</small>
+                  <a href="{{url_for('users.register')}}" class="text-info" >Register here</a>
+            </div>
+            <div class="form-group mt-3">
+            {{form.Submit(class="btn btn-success")}}
+            <a href="{{url_for('users.mainpage')}}" class="btn btn-secondary">Cancel</a>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+{% endblock Form %}

@@ -25,7 +25,7 @@
 
 
             <!--Collapse Navbar-->
-            {% if 1==1 %}
+            {% if "username" in session.keys() %}
             <div class="collapse navbar-collapse" id="navbarToggler1" >
               <ul class="nav navbar-nav navbar-right ml-auto" >
                 <li ><a href="#" id="HomePage" class=" mx-1">Feed</a></li>
@@ -45,7 +45,7 @@
                           
                           <a class="dropdown-item text-center" href="#">Profile</a>
                           <a class="dropdown-item text-center" href="#">Account</a>
-                          <a class="dropdown-item text-center" href="#">Logout</a>
+                          <a class="dropdown-item text-center" href="{{url_for('users.logout')}}">Logout</a>
                   </div>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler1" aria-controls="navbarToggler1" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,8 +56,8 @@
             {% else %}
             <div class="collapse navbar-collapse" id="navbarToggler1">
               <ul class="nav navbar-nav navbar-right ml-auto">
-                <li ><a href="#" class="nav-link mx-1">Login</a></li>
-                <li><a href="#" class="nav-link mx-1">Register</a></li>
+                <li ><a href="{{url_for('users.login')}}" class="nav-link mx-1">Login</a></li>
+                <li><a href="{{url_for('users.register')}}" class="nav-link mx-1">Register</a></li>
               </ul>
             </div>
              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler1" aria-controls="navbarToggler1" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,11 +77,34 @@
           </div>
 
           {% if "username" in session.keys()  %}
-          <div class="col-12 col-md-4">
-            <aside>
+          <aside class="col-12 col-sm-12 col-md-4 additional">
+            <div class="container" >
               
-            </aside>
-          </div>
+              <!-- Notifications Section -->
+             <p style="font-size: 150%;color: #FFFFFF;">Notifications:</p>
+              <div class="row  mb-2 overflow-auto rounded p-3" style="background-color: #FFFFFF; height: 15em;" >
+                  {% for notification in notifications %}
+                    <div class="col-12 col-sm-12 col-md-12">
+                      <small class="text-muted">{{notification.dt.date()}}</small><br />
+                      <p>{{notification.content}}</p>
+                    </div>
+                  {% endfor %}
+              </div>  
+              <hr />
+
+              <!-- Tags Section -->
+              <p style="font-size: 150%;color: #FFFFFF;">Tags You Follow:</p>
+              <div class="row mt-2 overflow-auto rounded p-3" style="background-color: #FFFFFF; height: 15em;" >
+                  <p></p>
+                  {% for tag in Tags %}
+                    <div class="col-12 col-sm-12 col-md-12">
+                      <a href="{{url_for('users.TagInfo', tag_id=tag.Tag_id)}}">{{tag.Tag_title}}</a>                
+                    </div>
+                  {% endfor %}
+              </div> 
+
+            </div>
+           </aside>
           {% endif %}
         </div>
     </div>

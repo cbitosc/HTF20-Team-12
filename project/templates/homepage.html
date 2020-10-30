@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block mainSection %}
+
+<p style="font-size: 150%;color: #FFFFFF" >Hello {{session['username']}}!!!</p>
+
+<div class="container rounded-lg bg-white  p-5 " >
+	<div class="row mt-4" >
+		<div class="col-sm-12 col-md-12" >
+			<p  style="font-size: 300%;">Curious to know the answer to a question that's troubling you??</p>
+			<a href="#" class="btn btn-lg btn-success" >Start a discussion</a>
+		</div>
+	</div>	
+</div>
+{% endblock mainSection %}
