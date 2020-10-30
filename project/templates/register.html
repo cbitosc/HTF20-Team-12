@@ -1,0 +1,87 @@
+{% extends "FormLayout.html" %}
+{% block Form %}
+<div class="container bg-white mt-3 rounded-lg" >
+      <div class="row" >
+        <div class="col-12 col-md-8 offset-md-2">
+          <form action="{{url_for('users.register')}}" class="form" method="post">
+            <legend class="text-center text-info" style="font-size: 180%; font-weight: 'bold';"  >User Registration:</legend>
+            {{ form.csrf_token }}
+            
+            <div class="form-group mt-3">
+            {{form.FirstName.label()}}
+            {{form.FirstName(class="form-control",placeholder="First-name")}}
+      		</div>
+
+            <div class="form-group mt-3">
+            {{form.LastName.label()}}
+            {{form.LastName(class="form-control",placeholder="Last-name")}}
+            </div>
+           
+            <div class="form-group mt-3">
+            {{form.UserName.label()}}
+            {{form.UserName(class="form-control",placeholder="Username")}}
+            </div>
+           
+             <div class="form-group mt-3" >
+           	{{form.UserEmail.label()}}
+            {{form.UserEmail(class="form-control",placeholder="Email address")}}
+            </div>
+            
+             <div class="form-group mt-3" >
+           	{{form.UserDob.label()}}
+            {{form.UserDob(class="form-control",type="date")}}
+            </div>
+            
+            <div class="form-group mt-3">
+              {{form.UserDescritpion.label()}}
+              {{form.UserDescritpion(class="form-control",rows="3")}}
+            </div>
+
+            <div class="form-group mt-3">
+              {{form.UserYear.label()}}
+              {{form.UserYear(class="form-control")}}
+
+            </div>
+
+            <div class="form-group mt-3">
+              {{form.UserBranch.label()}}
+              {{form.UserBranch(class="form-control")}}
+            </div>
+
+            <div class="form-group mt-3">
+               {{form.UserAccountType.label()}}
+              {{form.UserAccountType(class="form-control")}}
+            
+            </div>
+
+            <div class="form-group mt-3" >
+           	{{form.Password.label()}}
+            {{form.Password(class="form-control",placeholder="Password")}}
+            </div>
+         <!--    
+            <div class="form-group mt-3" >
+            {{form.ConfirmPassword.label()}}
+            {{form.ConfirmPassword(class="form-control",placeholder="Password")}}
+            </div> -->
+
+            <div class="form-group mt-3 text-danger" >
+              {% with messages=get_flashed_messages() %}
+                {% if messages %}
+                  {% for message in messages %}
+                    <small>{{message}}</small>
+                  {% endfor %}
+                {% endif %}
+              {% endwith %}
+            </div>
+            
+            <div class="form-group mt-3 ">
+            {{form.Submit(class="btn btn-primary btn-lg")}}
+            <a class="btn btn-dark btn-lg" href="{{url_for('users.register')}}">Cancel</a>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+{% endblock Form %}
+
