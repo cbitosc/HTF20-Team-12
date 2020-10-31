@@ -15,7 +15,7 @@
   <body>
     <header class="mb-2 sticky-top bg-light">
         
-        <nav class="navbar navbar-light sticky-top navbar-expand-sm ">
+        <nav class="navbar navbar-light shadow sticky-top navbar-expand-sm ">
           <div class="container-fluid">
 
             
@@ -80,18 +80,18 @@
         <aside class="col-12 col-sm-12 col-md-4 additional">
             
               <!-- Tags Section -->
-              <p style="font-size: 200%;font-weight: bold;">Tags You Follow:</p>
-              <div class=" mt-2 overflow-auto bg-white rounded p-3" style=" height: 15em;" >
-                  <p></p>
+              <p style="font-size: 150%;font-weight: bold;">Tags You Follow:</p>
+              <div class=" mt-2 overflow-auto bg-white rounded-lg p-3" style=" height: 15em;" >
+                 
                   {% for tag in Tags %}
                       <div>
-                        <a class="text-info" style=" font-size:200%;" href="{{url_for('discussions.TagInfo', tag_id=tag.Tagid)}}">{{tag.Tagtitle}}</a> 
+                        <a class="text-success" style=" font-size:120%;" href="{{url_for('discussions.TagInfo', tag_id=tag.Tagid)}}">{{tag.Tagtitle}}</a> 
                       </div>      
                   {% endfor %}
               </div> 
 
-              <p style="font-size: 200%;font-weight: bold;">Search For Tags:</p>
-              <div class=" mt-2 overflow-auto bg-white rounded p-3" style=" height: 10em;" >
+              <p style="font-size: 150%;font-weight: bold;">Search For Tags:</p>
+              <div class=" mt-2 overflow-auto bg-white rounded-lg p-3" style=" height: 10em;" >
                   <form action="{{url_for('discussions.fetchTags')}}" class="form" id="FetchTags"  method="post">
                       <input type="text" class="form-control" placeholder="Start with #" name="tagname" />
                       <input type="submit" class="form-control btn btn-success mt-2" name="submit" value="Fetch" />       

@@ -3,7 +3,7 @@
 <section class="container">
 	<div class="row" >
 		<div class="col-xs-12 text-center col-md-12 p-3 rounded-lg my-1">
-			<p><strong   style="font-size: 250%;color: #FFFFFF;">TAG:{{TAG.Tag_title}}</strong></p>
+			<p><strong   style="font-size: 250%;">TAG:{{TAG.Tag_title}}</strong></p>
 			{% if 'username' in session.keys() %}
 				{% if present_user_following %}
 					<button class="btn btn-primary btn-lg mb-3" onclick="javascript: followToggle({{TAG.Tagid}});" id="Tag-{{TAG.Tagid}}">UNFOLLOW</button>
