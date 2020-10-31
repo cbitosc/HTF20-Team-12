@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block mainSection %}
+
+<p style="font-size: 200%;font-weight: bold;" >Hello {{session['username']}}!!!</p>
+
+<div class="container rounded-lg bg-white  p-5 " >
+	<div class="row mt-4" >
+		<div class="col-sm-12 col-md-12" >
+			<p  style="font-size: 200%;">Curious to know the answer to a question that's troubling you??</p>
+			<a href="{{url_for('discussions.askQuestion')}}" class="btn btn-lg btn-success" >Ask a Question</a>
+		</div>
+	</div>	
+</div>
+{% endblock mainSection %}

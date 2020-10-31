@@ -1,0 +1,80 @@
+{% extends "twelveRowLayout.html" %}
+
+{% block mainSection %}
+	<div class="container p-4 rounded bg-white">
+
+		<div class="profileCard card">
+		
+			<div class="row">
+				<div class="media col-12">
+					<img class="profile rounded-circle" src="{{url_for('static',filename='profile/temp_pic.jpg')}}" alt="profile">
+					<div class="media-body row mt-3 ml-4">
+						
+						<div class="column">
+							<h5><strong>{{user.Uusername}}</strong></h5>
+
+							{% if user.URole==2%}
+								<p>Student</p>
+								<p>Year -{{user.UstudyYear}}</p>
+							{% else %}
+								<p>Faculty</p>
+							{% endif %}
+							
+						</div>
+						<div class="column">
+						
+							<p>{{user.Uemail}}</p>
+							
+							<p>{{branches[user.UBranch]}}</p>
+							
+							
+						</div>
+					
+					</div>
+
+				</div>
+			</div>
+			<div class="ml-4 mt-3">
+				<p><strong>About</strong></p>
+      			 <p>{{user.UDescription}}</p>
+				
+			</div>
+			<hr/>
+
+			{% if session['username']!=user.Uusername %}
+
+
+
+			<div class="row mt-2 ml-2">
+
+				<div class="column">
+					
+					<p style="font-size: x-large;" ><strong>Questions asked</strong></p>
+					<p style="font-size: x-large;">{{questionAsked|length}}</p>
+				
+				</div>
+
+				<div class="column">
+					<p style="font-size: x-large;"><strong>Discussions following</strong></p>
+					{%if following==None %}
+					<p style="font-size: x-large;">0</p>
+					{% else %}
+					<p style="font-size: x-large;">{{following|length}}</p>
+					{% endif %}
+					
+				</div>
+				
+			</div>
+
+			{% else %}
+
+				<p>To edit your profile, go to account or <a style="color: blue;" href="{{url_for('users.Account')}}">Click here</a></p>
+
+			{% endif %}
+
+		</div>
+
+
+	</div>
+
+{% endblock mainSection %}

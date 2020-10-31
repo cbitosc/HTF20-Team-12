@@ -1,0 +1,54 @@
+{% extends "FormLayout.html" %}
+{% block Form %}
+<div class="container bg-white mt-3 rounded-lg" >
+	<div class="row p-1" >
+		<div class="col-12 col-md-8 offset-md-2" >
+			<form action="{{url_for('discussions.askQuestion')}}" class="form" method="post">
+	            <legend class="text-center text-success" style="font-size: 180%; font-weight: 'bold'; " > Ask a Question:</legend>
+	     
+	            {{ form.csrf_token }}
+
+	            <div class="form-group mt-3">
+	            {{form.Qtitle.label(class="text-info")}}
+	            {{form.Qtitle(class="form-control",placeholder="Enter the title here...")}}
+	            </div>
+
+	            <div class="form-group mt-3" >
+	            {{form.Qdescription.label(class="text-info")}}
+	            {{form.Qdescription(class="form-control",rows=6,placeholder="Enter the description here...")}}
+	            </div>
+
+	            <div class="form-group mt-3" >
+	            {{form.QTags.label(class="text-info")}}
+	            {{form.QTags(class="form-control",placeholder="Start the tags with '#' separate each tag with a space... ")}}
+	            </div>
+
+	            <div class="form-group mt-3">
+	            	{{form.QAnonymous.label(class="text-info")}}
+	            	{{form.QAnonymous(class="form-control")}}
+	            </div>
+
+	            <div class="form-group mt-3 text-danger" >
+	              {% with messages=get_flashed_messages() %}
+	                {% if messages %}
+	                  {% for message in messages %}
+	                    <small>{{message}}</small>
+	                  {% endfor %}
+	                {% endif %}
+	              {% endwith %} 
+	            </div>
+	            
+	            
+	            <div class="form-group mt-3">
+	            {{form.QSubmit(class="btn btn-success")}}
+	            <a class="btn btn-dark" href="{{url_for('discussions.QuesPage')}}">Cancel</a>
+
+	            </div>
+
+          </form>			
+		</div>
+		
+	</div>
+	
+</div>
+{% endblock Form %}

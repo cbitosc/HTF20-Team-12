@@ -1,0 +1,40 @@
+{% for question in questions %}
+	<article id="post-{{question.Qid}}" class="col-12 col-sm-12 col-md-12 rounded-lg bg-white p-3 m-2" >
+	<span class="ProfileInfo rounded-pill bg-secondary p-2 text-center">
+		{% if question.QAnonymous==0 %}
+		<a href="{{url_for('users.profile',userName=question.get_author().Uusername)}}" class="userNameLink">
+		<strong>{{question.get_author().Uusername}}</strong>
+		</a>
+		{% else %}
+		<strong>Anonymous</strong>
+		{% endif %}
+	</span>
+	&nbsp;
+	<span >
+		<small class="text-muted">{{question.Qdate.date()}}</small>
+	</span>
+	<hr />
+	<a class="text-info" href="{{url_for('discussions.answerPage',Qid=question.Qid)}}"><p class="QuestionHeader" style="font-size: 130%;"><strong>{{question.Qtitle}}</strong></p></a>
+	<p>{{question.QDescription[:100]}}...</p>
+	{% with Tags=question.get_tags(tag_limit) %}
+		{% if Tags %}
+			<small>
+			<br />
+			{% for tag in Tags %}
+				<a class="text-info"  href="{{url_for('discussions.TagInfo',tag_id=tag.Tagid)}}" target="_blank">{{tag.Tagtitle}}</a>&nbsp;
+			{% endfor %}
+			</small>
+		{% endif %}
+	<br />
+	{% endwith %}
+	
+	</article>
+	
+{% endfor %}
+
+{% if questions|length ==0 %}
+	<div class="col-12 col-sm-12 col-md-12 rounded-lg bg-white p-3 m-2" >
+	<p>Nothing to show...</p>
+	</div>
+{% endif %}
+

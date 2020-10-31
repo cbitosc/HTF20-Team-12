@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block mainSection %}
+<section class="container">
+	<div class="row" >
+		
+		<div class="col-12 col-md-12">
+			<button  id="P1" onclick="javascript: loadQues('1');" class="btn feedButton" style="font-size:120%;margin-left: 1%;">Question I Asked</button>
+			<button  id="P2" onclick="javascript: loadQues('2');" style="font-size:120%;" class="btn feedButton">Discussions I follow</button>
+		</div>
+	</div>
+
+	<div class="row" id="QuesSection" >
+	
+	</div>
+
+
+</section>
+
+{% endblock mainSection %}
+
+{% block scripts %}
+<script type="text/javascript">
+	function loadQues(Ovalue=1) {
+		var buttons=document.getElementsByClassName("feedButton");
+		for(i=0;i<buttons.length;i+=1){
+			buttons[i].style.color="#FFFFFF";
+			buttons[i].style.fontWeight="normal";
+		}
+
+		var P=document.getElementById("P"+Ovalue);
+		P.style.color="#FFFF33";
+		P.style.fontWeight="bold";
+
+		var ques = new XMLHttpRequest();
+
+		ques.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		document.getElementById("QuesSection").innerHTML = this.responseText;
+		}
+		};
+		ques.open("POST", "{{url_for('discussions.questions')}}", true);
+		ques.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		ques.send("option="+Ovalue);
+	}
+
+	
+
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var navElement=document.getElementById("FeedPage");
+		navElement.style.color="#FFFF33";
+
+		//loading blogs...
+		loadQues();
+   	});
+</script>
+
+
+</script>
+{% endblock scripts %}

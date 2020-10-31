@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block mainSection %}
+<section class="container">
+	<h2>Questions By All Users:</h2>
+	<div class="row" id="QuesSection" >
+	
+	</div>
+
+
+</section>
+
+{% endblock mainSection %}
+
+{% block scripts %}
+<script type="text/javascript">
+	function loadQues(Ovalue=4) {
+		
+		var ques = new XMLHttpRequest();
+
+		ques.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		document.getElementById("QuesSection").innerHTML = this.responseText;
+		}
+		};
+		ques.open("POST", "{{url_for('discussions.questions')}}", true);
+		ques.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		ques.send("option="+Ovalue);
+	}
+
+	
+
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var navElement=document.getElementById("ExplorePage");
+		navElement.style.color="#FFFF33";
+
+		//loading blogs...
+		loadQues();
+   	});
+</script>
+
+
+</script>
+{% endblock scripts %}
