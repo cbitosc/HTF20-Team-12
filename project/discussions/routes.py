@@ -1,4 +1,4 @@
-from flask import  render_template, url_for, Blueprint, session, request, escape, redirect
+from flask import  render_template, url_for, Blueprint, session, request, escape, redirect, flash
 from project.models import db,User, QuestionThreads, Tags, DTags, Answers, AnswerVotes, TagsFollowing, QFollowing
 from project.discussions.forms import QuestionForm, AnswerForm
 from sqlalchemy import and_
@@ -211,3 +211,19 @@ def followDiscussion():
 				return "FOLLOW"
 			else:
 				return "UNFOLLOW"
+
+@discussions.route('/fetchTags',methods=['POST'])
+def fetchTags():
+	if ('user_id' in session.keys()) and ('username' in session.keys()):
+	
+		if request.method=="POST":
+			tagTitle=escape(request.form['tagname'])
+			if tagTitle=="":
+				flash("Tag Not Found...")
+				return redirect(url_for('users.homepage'))
+			tag=db.session.query(Tags).filter(Tags.Tagtitle==tagTitle).first()
+			if tag==None:
+				flash("Tag Not Found...")
+				return redirect(url_for('users.homepage'))
+
+			return redirect(url_for('discussions.TagInfo', tag_id=tag.Tagid))

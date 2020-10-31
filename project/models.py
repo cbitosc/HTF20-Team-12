@@ -22,11 +22,11 @@ class User(db.Model):
 		return tags_dict
 
 	def questions_asked(self):
-		ques_dict=db.session.query(QuestionThreads).filter(QuestionThreads.Qauthor==self.Uid).all()
+		ques_dict=db.session.query(QuestionThreads).filter(QuestionThreads.Qauthor==self.Uid).order_by(QuestionThreads.Qdate.desc()).all()
 		return ques_dict
 
 	def user_follows(self):
-		follows_dict=db.session.query(QuestionThreads).join(QFollowing, QuestionThreads.Qid==QFollowing.Question).filter(QFollowing.user_id==self.Uid).all()
+		follows_dict=db.session.query(QuestionThreads).join(QFollowing, QuestionThreads.Qid==QFollowing.Question).filter(QFollowing.user_id==self.Uid).order_by(QuestionThreads.Qdate.desc()).all()
 		return follows_dict
 	
 	 
@@ -59,7 +59,8 @@ class QuestionThreads(db.Model):
 		return tags
 
 	def get_answers(self):
-		answers=db.session.query(Answers).filter(Answers.AQid==self.Qid).all()
+		answers=list(db.session.query(Answers).filter(Answers.AQid==self.Qid).all())
+		answers.sort(reverse=True, key=lambda a:len(a.get_upvoters()))
 		return answers
 
 

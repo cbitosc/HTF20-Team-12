@@ -29,8 +29,8 @@
             <div class="collapse navbar-collapse" id="navbarToggler1" >
               <ul class="nav navbar-nav navbar-right ml-auto" >
                 <li ><a href="{{url_for('discussions.QuesPage')}}" id="FeedPage" class=" mx-1">Discussions</a></li>
-                <li ><a href="#" id="SearchPage" class=" mx-1">Search</a></li>
-                <!-- <li><a href="#" id="DiscussionPage" class=" mx-1">Link3</a></li> -->
+               <!--  <li ><a href="#" id="SearchPage" class=" mx-1">Search</a></li>
+               -->  <!-- <li><a href="#" id="DiscussionPage" class=" mx-1">Link3</a></li> -->
                <!--  <li><a href="#" id="SearchPage" class="nav-link mx-1"><i class="fa fa-search"></i>Search</a></li>
               </ul> -->
             </div>
@@ -81,13 +81,30 @@
             
               <!-- Tags Section -->
               <p style="font-size: 200%;font-weight: bold;">Tags You Follow:</p>
-              <div class=" mt-2 overflow-auto bg-white rounded p-3" style=" height: 30em;" >
+              <div class=" mt-2 overflow-auto bg-white rounded p-3" style=" height: 15em;" >
                   <p></p>
                   {% for tag in Tags %}
                       <div>
                         <a class="text-info" style=" font-size:200%;" href="{{url_for('discussions.TagInfo', tag_id=tag.Tagid)}}">{{tag.Tagtitle}}</a> 
                       </div>      
                   {% endfor %}
+              </div> 
+
+              <p style="font-size: 200%;font-weight: bold;">Search For Tags:</p>
+              <div class=" mt-2 overflow-auto bg-white rounded p-3" style=" height: 10em;" >
+                  <form action="{{url_for('discussions.fetchTags')}}" class="form" id="FetchTags"  method="post">
+                      <input type="text" class="form-control" placeholder="Start with #" name="tagname" />
+                      <input type="submit" class="form-control btn btn-success mt-2" name="submit" value="Fetch" />       
+                      <div class="form-group mt-3 text-danger" >
+                        {% with messages=get_flashed_messages() %}
+                          {% if messages %}
+                            {% for message in messages %}
+                              <small>{{message}}</small>
+                            {% endfor %}
+                          {% endif %}
+                        {% endwith %} 
+                      </div>             
+                  </form>
               </div> 
 
             </div>

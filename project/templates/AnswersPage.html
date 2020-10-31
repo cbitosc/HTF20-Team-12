@@ -6,9 +6,13 @@
 	<div class="row" id="answersSection" >
 		<article id="post-{{question.Qid}}" class="col-12 col-sm-12 col-md-12 rounded-lg bg-white p-3 m-2" >
 			<span class="ProfileInfo rounded-pill bg-secondary p-2 text-center">
+				{% if question.QAnonymous==0 %}
 				<a href="{{url_for('users.profile',userName=question.get_author().Uusername)}}" class="userNameLink">
 				<strong>{{question.get_author().Uusername}}</strong>
 				</a>
+				{% else %}
+				<strong>Anonymous</strong>
+				{% endif %}
 			</span>
 			&nbsp;
 			<span >
