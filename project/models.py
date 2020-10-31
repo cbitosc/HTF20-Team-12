@@ -27,7 +27,7 @@ class User(db.Model):
 
 	def user_follows(self):
 		follows_dict=db.session.query(QuestionThreads).join(QFollowing, QuestionThreads.Qid==QFollowing.Question).filter(QFollowing.user_id==self.Uid).all()
-
+		return follows_dict
 	
 	 
 

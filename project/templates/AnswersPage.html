@@ -30,7 +30,13 @@
 			{% endwith %}
 			<hr />
 			<a href="{{url_for('discussions.answerQ',Qid=question.Qid)}}" target="_blank"class="btn btn-success" >Answer this Question</a>
-		
+			<span style="float: right;">
+			{% if present_user_following %}
+				<button class="btn btn-primary  mb-3" onclick="javascript: followToggle({{question.Qid}});" id="Q-{{question.Qid}}">UNFOLLOW</button>
+			{% else %}
+				<button class="btn btn-primary mb-3" onclick="javascript: followToggle({{question.Qid}});" id="Q-{{question.Qid}}">FOLLOW</button>
+			{% endif %}
+			</span>
 		</article>
 		<p style="font-size: 150%;font-weight: bold;" >Answers:</p>
 		<hr/>
@@ -105,6 +111,20 @@
 	send_react.send("Aid="+answer);
 
 
+	}
+
+
+	function followToggle(Qid){
+		var send_Toggle=new XMLHttpRequest();
+		send_Toggle.onreadystatechange=function(){
+			if(this.readyState==4 && this.status==200){
+				document.getElementById('Q-'+Qid).innerHTML=this.responseText;
+			}
+		};
+
+		send_Toggle.open("POST","{{url_for('discussions.followDiscussion')}}", true);
+		send_Toggle.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		send_Toggle.send('Qid='+Qid);
 	}
 
 </script>

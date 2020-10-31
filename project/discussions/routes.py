@@ -1,5 +1,5 @@
 from flask import  render_template, url_for, Blueprint, session, request, escape, redirect
-from project.models import db,User, QuestionThreads, Tags, DTags, Answers, AnswerVotes, TagsFollowing
+from project.models import db,User, QuestionThreads, Tags, DTags, Answers, AnswerVotes, TagsFollowing, QFollowing
 from project.discussions.forms import QuestionForm, AnswerForm
 from sqlalchemy import and_
 
@@ -57,11 +57,13 @@ def answerPage():
 		Tags=present_user.user_tags()
 		Qid=request.args.get('Qid')
 		question=db.session.query(QuestionThreads).get(int(Qid))
+		present_user_following=False
+		if int(Qid) in [x.Qid for x in present_user.user_follows()]:
+			present_user_following=True
 		answers=question.get_answers()
-		return render_template("AnswersPage.html",Tags=Tags,question=question, answers=answers,len=len)
+		return render_template("AnswersPage.html",Tags=Tags,question=question, answers=answers,len=len, present_user_following=present_user_following)
 	else:
 		return "ACCESS DENIED"
-
 
 
 
@@ -181,6 +183,31 @@ def tagFollowToggle():
 			tag_id=escape(tagId)
 			TagF=db.session.query(TagsFollowing).filter(and_(TagsFollowing.TFuserId==session['user_id'], TagsFollowing.TFtagId==tag_id)).first()
 			if TagF==None:
+				return "FOLLOW"
+			else:
+				return "UNFOLLOW"
+
+
+@discussions.route('/followDiscussion',methods=['POST','GET'])
+def followDiscussion():
+	Qid=escape(request.args.get('Qid'))
+	if ('user_id' in session.keys()) and ('username' in session.keys()):
+		if request.method=='POST':
+			Qid=request.form['Qid']
+			Qid=escape(Qid)
+			DF=db.session.query(QFollowing).filter(and_(QFollowing.user_id==session['user_id'], QFollowing.Question==Qid)).first()
+			if DF==None:
+				DF=QFollowing(user_id=session['user_id'], Question=Qid)
+				db.session.add(DF)
+				db.session.commit()
+			else:
+				db.session.delete(DF)
+				db.session.commit()
+			return redirect(url_for('discussions.followDiscussion', Qid=Qid))
+		else:
+			Qid=escape(Qid)
+			DF=db.session.query(QFollowing).filter(and_(QFollowing.user_id==session['user_id'], QFollowing.Question==Qid)).first()
+			if DF==None:
 				return "FOLLOW"
 			else:
 				return "UNFOLLOW"
