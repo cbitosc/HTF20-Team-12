@@ -1,7 +1,7 @@
 from datetime import datetime, date
 from flask import  render_template, url_for, Blueprint, request, session, redirect, escape, flash, abort
 from sqlalchemy import and_
-from project.users.forms import RegisterForm, LoginForm
+from project.users.forms import RegisterForm, LoginForm, ChangePasswordForm, UpdateAccountForm
 from project.models import db,User
 
 users=Blueprint('users',__name__)
@@ -74,6 +74,76 @@ def register():
 	else:
 		form=RegisterForm()
 		return render_template("register.html",form=form)
+
+
+
+@users.route('/update-account/',methods=['POST','GET'])
+def UpdateAccount():
+
+	if 'username' in session.keys():
+
+		if (request.method=='POST') and ('Submit' in request.form.keys()):
+
+			current_user = User.query.filter_by(Uid=session['user_id']).first()
+			current_user.UfirstName=escape(request.form['FirstName'])
+			current_user.UlastName=escape(request.form['LastName'])
+			if(current_user.UlastName==''):
+				current_user.UlastName=None
+			current_user.Uusername=escape(request.form['UserName'])
+			current_user.Uemail=escape(request.form['UserEmail'])
+			current_user.Udescription=escape(request.form['UserDescription'])
+			db.session.commit()
+
+			if(current_user.Uusername==session['username']):
+				return redirect(url_for('users.mainpage'))
+			else:
+				return redirect(url_for('users.logout'))
+
+		elif(request.method=='GET'):
+			form=UpdateAccountForm()
+			current_user=User.query.filter_by(Uid=session['user_id']).first()
+			print(current_user)
+			form.FirstName.data = current_user.UfirstName
+			form.LastName.data = current_user.UlastName
+			form.UserName.data = current_user.Uusername
+			form.UserEmail.data = current_user.Uemail
+			form.UserDescription.data = current_user.UDescription
+
+			return render_template('UpdateAccount.html',user=current_user,form=form)
+	else:
+		return redirect(url_for('users.login'))
+
+
+
+
+@users.route("/change-password/",methods=['POST','GET'])
+def ChangePassword():
+	
+	if 'username' in session.keys():	
+		if (request.method=="POST") and ( 'Submit' in request.form.keys()):
+
+			currentPassword=escape(request.form['currentPassword'])
+			newPassword=escape(request.form['newPassword'])
+			newPassword1=escape(request.form['reEnterPassword'])
+			user = User.query.filter_by(Uid = session['user_id']).first()
+
+			if(newPassword==newPassword1 and currentPassword==user.Upassword):
+				user.Upassword = newPassword
+				db.session.commit()
+				return redirect(url_for('users.homepage'))
+			elif(currentPassword!=user.Upassword):
+				flash("Current Password did not match")
+				return redirect(url_for('users.ChangePassword'))
+			else:
+				flash("New passwords does not match. Please check again")
+				return redirect(url_for('users.ChangePassword'))
+		else:
+			form=ChangePasswordForm()
+			return render_template("ChangePassword.html",form=form)
+	else:
+		return redirect(url_for('users.login'))
+
+
 
 
 @users.route("/")
