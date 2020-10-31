@@ -9,13 +9,18 @@ users=Blueprint('users',__name__)
 
 branches={1:"CSE",2:"ECE",3:"IT",4:"MECH",5:"CIVIL",6:"CHEM",7:"BIO-TECH",8:"PROD",9:"MCA",10:"MBA"}
 
-@users.route('/profile')
-def profile():
+@users.route('/<string:userName>/')
+def profile(userName):
 	if('username' in  session.keys()) and ('user_id' in session.keys()):
 		present_user=db.session.query(User).get(session['user_id'])
-		return render_template('profile.html',current_user=present_user,branches=branches) 	
-
-	return redirect(url_for('users.login'))
+		user = User.query.filter_by(Uusername=userName).first()
+		questionAsked = user.questions_asked()
+		following = user.user_follows()
+		
+		return render_template('profile.html',current_user=present_user,user=user,
+								branches=branches, questionAsked=questionAsked, following=following) 	
+	else:
+		return redirect(url_for('users.login'))
 
 @users.route('/questionAsked')
 def questionAsked():
@@ -163,8 +168,8 @@ def homepage():
 		
 	return redirect(url_for('users.login'))
 
-@users.route('/AccountDetails')
-def AccountDetails():
+@users.route('/Account')
+def Account():
 	if('username' in  session.keys()) and ('user_id' in session.keys()):
 		present_user=db.session.query(User).get(session['user_id'])
 		return render_template('userAccount.html',current_user=present_user,branches=branches) 	

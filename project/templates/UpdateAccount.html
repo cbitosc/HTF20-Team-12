@@ -8,16 +8,15 @@
       <div class="row">
         <div class="col-sm-12" style="display: inline-block;">
             <div class="mt-2 ml-2 p-2" style="display: inline-block; font-size: large; ">
-            <strong>{{user.user_username}}</strong><br>
-            {{user.user_email}}
+            <strong>{{user.Uusername}}</strong><br>
+            {{user.Uemail}}
           </div>
           
         </div>
       </div>  
 
       <hr/>
-
-      <h5 class="ml-2">Account Details</h5>
+      <h3 class="ml-2">Account Details</h3>
 
 
       <div>
@@ -66,14 +65,14 @@
 
             <div class="form-group mt-3 ">
             {{form.Submit(class="btn btn-info")}}
-            <a class="btn btn-dark" href="{{url_for('users.logout')}}">Cancel</a>
+            <a class="btn btn-dark" href="{{url_for('users.mainpage')}}">Cancel</a>
             </div>
             
           </form>
       </div>
       <hr>
 
-      <p><strong>User has to login again after updating their profile</strong></p>
+      <p><strong>User has to login again after updating their username</strong></p>
   </div>
 
 </div>
