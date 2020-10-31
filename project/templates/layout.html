@@ -43,8 +43,8 @@
                   <div class="dropdown-menu dropdown-menu-right  " style="width: 50%;">
                           <p class="dropdown-header text-center" ><strong> {{session['username']}}</strong></p>
                           
-                          <a class="dropdown-item text-center" href="{{url_for('users.profile')}}">Profile</a>
-                          <a class="dropdown-item text-center" href="{{url_for('users.AccountDetails')}}">Account</a>
+                          <a class="dropdown-item text-center" href="{{url_for('users.profile',userName=session['username'])}}">Profile</a>
+                          <a class="dropdown-item text-center" href="{{url_for('users.Account')}}">Account</a>
                           <a class="dropdown-item text-center" href="{{url_for('users.logout')}}">Logout</a>
                   </div>
             </div>
