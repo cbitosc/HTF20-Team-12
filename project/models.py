@@ -25,6 +25,10 @@ class User(db.Model):
 		ques_dict=db.session.query(QuestionThreads).filter(QuestionThreads.Qauthor==self.Uid).all()
 		return ques_dict
 
+	def user_follows(self):
+		follows_dict=db.session.query(QuestionThreads).join(QFollowing, QuestionThreads.Qid==QFollowing.Question).filter(QFollowing.user_id==self.Uid).all()
+
+	
 	 
 
 
@@ -46,6 +50,19 @@ class QuestionThreads(db.Model):
 	QDescription=db.Column(db.String(1000),nullable=False)
 	Qdate=db.Column(db.DateTime,nullable=False,default=datetime.utcnow)
 
+	def get_author(self):
+		author=db.session.query(User).get(self.Qauthor)
+		return author
+
+	def get_tags(self,num=None):
+		tags=db.session.query(Tags).join(DTags, DTags.Tag==Tags.Tagid).filter(DTags.Discussion==self.Qid).all()
+		return tags
+
+	def get_answers(self):
+		answers=db.session.query(Answers).filter(Answers.AQid==self.Qid).all()
+		return answers
+
+
 
 class QFollowing(db.Model):
 	Question=db.Column(db.Integer,db.ForeignKey('question_threads.Qid',ondelete="cascade"),primary_key=True)
@@ -62,6 +79,22 @@ class Answers(db.Model):
 	Adate=db.Column(db.DateTime,nullable=False,default=datetime.utcnow)
 	AreplyingTo=db.Column(db.Integer, db.ForeignKey('answers.Aid',ondelete="cascade"), nullable=True)
 	
+	def get_upvoters(self):
+		upvoters=db.session.query(AnswerVotes).filter(AnswerVotes.answer==self.Aid).all()
+		upvoters=[x.user for x in upvoters]
+		return upvoters
+
+	def replyingTo(self):
+		if A.AreplyingTo!=None:
+			reply=db.session.query(Answers).get(self.AreplyingTo)
+			return reply
+
+	def get_author(self):
+		author=db.session.query(User).get(self.Aauthor)
+		return author
+
+
+
 class AnswerVotes(db.Model):
 	user=db.Column(db.Integer, db.ForeignKey("user.Uid",ondelete="cascade"), primary_key=True )
 	answer=db.Column(db.Integer,db.ForeignKey("answers.Aid", ondelete="cascade"),primary_key=True)
@@ -73,6 +106,17 @@ class AnswerVotes(db.Model):
 class Tags(db.Model):
 	Tagid=db.Column(db.Integer, primary_key=True)
 	Tagtitle=db.Column(db.String(30), nullable=False)
+
+	def getFollowedBy(self):
+		followers_dict=db.session.query(TagsFollowing).filter(and_(TagsFollowing.TFtagId==self.Tagid)).all()
+		followers_dict=list(followers_dict)
+		return followers_dict
+
+	def get_questions(self):
+		questions=db.session.query(QuestionThreads).join(DTags, DTags.Discussion==QuestionThreads.Qid ).filter(DTags.Tag==self.Tagid).all()
+		return questions
+
+
 
 class TagsFollowing(db.Model):
 	TFuserId=db.Column(db.Integer, db.ForeignKey('user.Uid'),primary_key=True)

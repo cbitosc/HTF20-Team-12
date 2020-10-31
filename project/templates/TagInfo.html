@@ -1,0 +1,68 @@
+{% extends "twelveRowLayout.html" %}
+{% block mainSection %}
+<section class="container">
+	<div class="row" >
+		<div class="col-xs-12 text-center col-md-12 p-3 rounded-lg my-1">
+			<p><strong   style="font-size: 250%;color: #FFFFFF;">TAG:{{TAG.Tag_title}}</strong></p>
+			{% if 'username' in session.keys() %}
+				{% if present_user_following %}
+					<button class="btn btn-primary btn-lg mb-3" onclick="javascript: followToggle({{TAG.Tagid}});" id="Tag-{{TAG.Tagid}}">UNFOLLOW</button>
+				{% else %}
+					<button class="btn btn-primary btn-lg mb-3" onclick="javascript: followToggle({{TAG.Tagid}});" id="Tag-{{TAG.Tagid}}">FOLLOW</button>
+				{% endif %}
+			{% endif %}
+
+		</div>
+
+	</div>
+
+	<div class="row" id="QuesSection" >
+	
+	</div>
+
+
+</section>
+{% endblock mainSection %}
+
+{% block scripts %}
+<script type="text/javascript">
+	function loadQues(Ovalue=3,tag_id) {
+		
+		var ques = new XMLHttpRequest();
+
+		ques.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		document.getElementById("QuesSection").innerHTML = this.responseText;
+		}
+		};
+		ques.open("POST", "{{url_for('discussions.questions')}}", true);
+		ques.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		ques.send("option="+Ovalue+"&tag_id="+tag_id);
+	}
+
+
+
+	function followToggle(tag_id){
+		var send_Toggle=new XMLHttpRequest();
+		send_Toggle.onreadystatechange=function(){
+			if(this.readyState==4 && this.status==200){
+				document.getElementById('Tag-'+tag_id).innerHTML=this.responseText;
+			}
+		};
+
+		send_Toggle.open("POST","{{url_for('discussions.tagFollowToggle')}}", true);
+		send_Toggle.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		send_Toggle.send('tagId='+tag_id);
+	}
+
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		//loading blogs...
+		loadQues(3,{{TAG.Tagid}});
+   	});
+
+
+</script>
+{% endblock scripts %}

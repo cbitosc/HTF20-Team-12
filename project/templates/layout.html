@@ -28,8 +28,8 @@
             {% if "username" in session.keys() %}
             <div class="collapse navbar-collapse" id="navbarToggler1" >
               <ul class="nav navbar-nav navbar-right ml-auto" >
-                <li ><a href="#" id="HomePage" class=" mx-1">Feed</a></li>
-                <li ><a href="#" id="FeedPage" class=" mx-1">Explore</a></li>
+                <li ><a href="{{url_for('discussions.QuesPage')}}" id="FeedPage" class=" mx-1">Discussions</a></li>
+                <li ><a href="#" id="SearchPage" class=" mx-1">Search</a></li>
                 <!-- <li><a href="#" id="DiscussionPage" class=" mx-1">Link3</a></li> -->
                <!--  <li><a href="#" id="SearchPage" class="nav-link mx-1"><i class="fa fa-search"></i>Search</a></li>
               </ul> -->
@@ -76,36 +76,23 @@
             {% endblock mainSection %}
           </div>
 
-          {% if "username" in session.keys()  %}
-          <aside class="col-12 col-sm-12 col-md-4 additional">
-            <div class="container" >
-              
-              <!-- Notifications Section -->
-             <p style="font-size: 150%;color: #FFFFFF;">Notifications:</p>
-              <div class="row  mb-2 overflow-auto rounded p-3" style="background-color: #FFFFFF; height: 15em;" >
-                  {% for notification in notifications %}
-                    <div class="col-12 col-sm-12 col-md-12">
-                      <small class="text-muted">{{notification.dt.date()}}</small><br />
-                      <p>{{notification.content}}</p>
-                    </div>
-                  {% endfor %}
-              </div>  
-              <hr />
-
+          {% if 'user_id' in session.keys()  %}
+        <aside class="col-12 col-sm-12 col-md-4 additional">
+            
               <!-- Tags Section -->
-              <p style="font-size: 150%;color: #FFFFFF;">Tags You Follow:</p>
-              <div class="row mt-2 overflow-auto rounded p-3" style="background-color: #FFFFFF; height: 15em;" >
+              <p style="font-size: 200%;font-weight: bold;">Tags You Follow:</p>
+              <div class=" mt-2 overflow-auto bg-white rounded p-3" style=" height: 30em;" >
                   <p></p>
                   {% for tag in Tags %}
-                    <div class="col-12 col-sm-12 col-md-12">
-                      <a href="{{url_for('users.TagInfo', tag_id=tag.Tag_id)}}">{{tag.Tag_title}}</a>                
-                    </div>
+                      <div>
+                        <a class="text-info" style=" font-size:200%;" href="{{url_for('discussions.TagInfo', tag_id=tag.Tagid)}}">{{tag.Tagtitle}}</a> 
+                      </div>      
                   {% endfor %}
               </div> 
 
             </div>
-           </aside>
-          {% endif %}
+        </aside>
+        {% endif %}
         </div>
     </div>
 

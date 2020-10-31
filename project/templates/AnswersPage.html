@@ -1,0 +1,129 @@
+{% extends "layout.html" %}
+{% block mainSection %}
+<section class="container">
+
+	
+	<div class="row" id="answersSection" >
+		<article id="post-{{question.Qid}}" class="col-12 col-sm-12 col-md-12 rounded-lg bg-white p-3 m-2" >
+			<span class="ProfileInfo rounded-pill bg-secondary p-2 text-center">
+				<a href="{{url_for('users.profile',userName=question.get_author().Uusername)}}" class="userNameLink">
+				<strong>{{question.get_author().Uusername}}</strong>
+				</a>
+			</span>
+			&nbsp;
+			<span >
+				<small class="text-muted">{{question.Qdate.date()}}</small>
+			</span>
+			<hr />
+			<a class="text-info" href="{{url_for('discussions.answerPage',Qid=question.Qid)}}"><p class="QuestionHeader" style="font-size: 130%;"><strong>{{question.Qtitle}}</strong></p></a>
+			<p>{{question.QDescription}}...</p>
+			{% with Tags=question.get_tags(tag_limit) %}
+				{% if Tags %}
+					<small>
+					<br />
+					{% for tag in Tags %}
+						<a href="{{url_for('users.homepage',tag_id=tag.Tagid)}}" target="_blank">{{tag.Tagtitle}}</a>&nbsp;
+					{% endfor %}
+					</small>
+				{% endif %}
+			<br />
+			{% endwith %}
+			<hr />
+			<a href="{{url_for('discussions.answerQ',Qid=question.Qid)}}" target="_blank"class="btn btn-success" >Answer this Question</a>
+		
+		</article>
+		<p style="font-size: 150%;font-weight: bold;" >Answers:</p>
+		<hr/>
+		{% for answer in answers %}
+		<article id="answer-{{answer.Aid}}" class="col-12 col-sm-12 col-md-12 rounded-lg bg-white p-3 m-2" >
+			<span class="ProfileInfo rounded-pill bg-secondary p-2">
+				<a href="{{url_for('users.profile',userName=answer.get_author().Uusername)}}" class="userNameLink">
+				<strong>{{answer.get_author().Uusername}}</strong>
+				</a>
+			</span>
+
+			&nbsp;
+			<span >
+				<small class="text-muted">{{answer.Adate.date()}}</small>
+			</span>
+			<hr />
+
+			
+			<!-- Content Section -->
+			<p class="answerHeader"><strong>{{answer.Atitle}}</strong></p>
+			<p>{{answer.Aans}}</p>
+
+			<hr />
+
+		
+			<!-- Reactions Section -->
+			{% with up_list= answer.get_upvoters()%}
+
+			{% if session['user_id'] in up_list %}
+				<button id="L{{answer.Aid}}"onclick="react({{answer.Aid}},1)" class="btn bg-dark text-success rounded-pill likeDislike" >&#128077;{{up_list|length}}</button>
+			{% else %}
+				<button id="L{{answer.Aid}}" onclick="react({{answer.Aid}},0)" class="btn text-success  rounded-pill likeDislike" >&#128077;{{len(up_list)}}</button>
+			{% endif %}
+			
+			{% endwith %}	
+		</article>
+	{% endfor %}
+
+	</div>
+
+	{% if answers|length ==0 %}
+	<div class="col-12 col-sm-12 col-md-12 rounded-lg bg-white p-3 m-2" >
+	<p>Nothing To Show...</p>
+	</div>
+	{% endif %}
+
+</section>
+
+{% endblock mainSection %}
+
+{% block scripts %}
+<script type="text/javascript">
+	
+
+	function react(answer,v){
+	var send_react=new XMLHttpRequest();
+	send_react.onreadystatechange=function(){
+		if(this.readyState==4 && this.status==200){
+			document.getElementById('L'+answer).innerHTML="&#128077;"+this.responseText;
+			document.getElementById('L'+answer).classList.toggle('bg-dark');
+			// if (v==1){
+			// 	document.getElementById('L'+answer).classList.remove('bg-dark');
+			// }
+			// else{
+			// 	document.getElementById('L'+answer).classList.add('bg-dark');
+			// }
+		}
+	};
+
+	send_react.open("POST","{{url_for('discussions.reactToPost')}}",true);
+	send_react.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	send_react.send("Aid="+answer);
+
+
+	}
+
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var navElement=document.getElementById("FeedPage");
+		navElement.style.color="#FFFF33";
+
+   	});
+</script>
+
+<script type="text/javascript">
+	function copyToClipBoard(postId){
+		
+		var link_string="http://localhost:5000/Detailblog/"+postId;
+		navigator.clipboard.writeText(link_string).then(function(){ alert("Link Copied...");}, function(){alert("Link not copied...");})
+		return false;
+	}
+
+
+</script>
+{% endblock scripts %}
