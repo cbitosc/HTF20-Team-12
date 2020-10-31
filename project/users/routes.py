@@ -151,7 +151,7 @@ def mainpage():
 	if ('username' in session.keys()) and ('user_id' in session.keys()):
 		return redirect(url_for('users.homepage'))
 
-	return render_template("GreetPage.html")
+	return redirect(url_for('users.login'))
 
 
 @users.route('/home/')
@@ -161,7 +161,7 @@ def homepage():
 		Tags=present_user.user_tags()
 		return render_template("homepage.html",Tags=Tags)
 		
-	return render_template("GreetPage.html")
+	return redirect(url_for('users.login'))
 
 @users.route('/AccountDetails')
 def AccountDetails():

@@ -45,7 +45,10 @@ def questions():
 				else:
 					questions=[]
 				return render_template("questions.html",questions=questions,OnlyOne=False,tag_limit=None)
-
+			
+			elif option==4:
+				allQuestions=db.session.query(QuestionThreads).order_by(QuestionThreads.Qdate.desc()).all()
+				return render_template("questions.html",questions=allQuestions,OnlyOne=False,tag_limit=None)
 			else:
 				return "Explore..."
 
@@ -227,3 +230,13 @@ def fetchTags():
 				return redirect(url_for('users.homepage'))
 
 			return redirect(url_for('discussions.TagInfo', tag_id=tag.Tagid))
+
+
+@discussions.route("/allQuestions")
+def AllQuestions():
+	if "user_id" in session.keys():
+		present_user=db.session.query(User).get(session['user_id'])
+		Tags=present_user.user_tags()
+		return render_template("AllQuestions.html",Tags=Tags)
+	else:
+		return "ACCESS DENIED"
