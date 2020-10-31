@@ -100,3 +100,17 @@ def AccountDetails():
 		return render_template('userAccount.html',current_user=present_user,branches=branches) 	
 
 	return redirect(url_for('users.login'))
+
+@users.route('/DeleteUser/',methods=(['POST']))
+def DeleteUser():
+
+	if 'username' in session.keys():	
+		if (request.method=="POST"):
+			user =  db.session.query(User).get(session['user_id'])
+			db.session.delete(user)
+			db.session.commit()
+			return redirect(url_for('users.logout'))
+		else:
+			pass
+	else:
+		abort(401)
