@@ -1,0 +1,80 @@
+{% extends "twelveRowLayout.html" %}
+{% block mainSection %}
+
+<div class="container rounded-lg profile-container mt-2 mb-2" >
+  <h3 style="color: yellow;margin-left: 1em;" >Update Account  </h3>
+
+<div class="card bg-white col-sm-12 mt-2 p-2" style="float: left;margin: 1em;">  
+      <div class="row">
+        <div class="col-sm-12" style="display: inline-block;">
+            <div class="mt-2 ml-2 p-2" style="display: inline-block; font-size: large; ">
+            <strong>{{user.user_username}}</strong><br>
+            {{user.user_email}}
+          </div>
+          
+        </div>
+      </div>  
+
+      <hr/>
+
+      <h5 class="ml-2">Account Details</h5>
+
+
+      <div>
+        <form action="{{url_for('users.UpdateAccount')}}" class="form" method="post" enctype="multipart/form-data">
+            
+            <div class="form-group mt-3">
+            {{form.FirstName.label()}}
+            {{form.FirstName(class="form-control",placeholder="First-name")}}
+          </div>
+
+            <div class="form-group mt-3">
+            {{form.LastName.label()}}
+            {{form.LastName(class="form-control",placeholder="Last-name")}}
+            </div>
+           
+            <div class="form-group mt-3">
+            {{form.UserName.label()}}
+            {{form.UserName(class="form-control",placeholder="Username")}}
+            </div>
+           
+             <div class="form-group mt-3" >
+            {{form.UserEmail.label()}}
+            {{form.UserEmail(class="form-control",placeholder="Email address")}}
+            </div>
+
+            <div class="form-group mt-3" >
+            {{form.UserDescription.label()}}
+            {{form.UserDescription(class="form-control",placeholder="Email address")}}
+            </div>
+            
+            <p>Uploading</p>
+             <div class="form-group mt-3" >
+                <input type="file" name="photo">
+              </div>
+           
+            <div class="form-group mt-3 text-danger" >
+              {% with messages=get_flashed_messages() %}
+                {% if messages %}
+                  {% for message in messages %}
+                    <small>{{message}}</small>
+                  {% endfor %}
+                {% endif %}
+              {% endwith %}
+            </div>
+            
+
+            <div class="form-group mt-3 ">
+            {{form.Submit(class="btn btn-info")}}
+            <a class="btn btn-dark" href="{{url_for('users.logout')}}">Cancel</a>
+            </div>
+            
+          </form>
+      </div>
+      <hr>
+
+      <p><strong>User has to login again after updating their profile</strong></p>
+  </div>
+
+</div>
+{% endblock mainSection %}

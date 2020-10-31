@@ -41,7 +41,14 @@ class UpdateAccountForm(FlaskForm):
 	LastName=StringField("Last-Name:")
 	UserName=StringField("Username:",validators=[DataRequired()])
 	UserEmail=StringField("UserEmail:",validators=[DataRequired()])
-	UserDescritpion=TextAreaField("Description:", validators=[DataRequired()])
+	UserDescription=TextAreaField("Description:", validators=[DataRequired()])
 	# profilepicture
 	Submit=SubmitField("Save Changes")
 
+
+class ChangePasswordForm(FlaskForm):
+
+	currentPassword = PasswordField("Current Password",validators=[DataRequired()])
+	newPassword = PasswordField("New Password",validators=[DataRequired()])
+	reEnterPassword = PasswordField("Re-enter new Password",validators=[DataRequired()])
+	Submit=SubmitField("Update Password")
